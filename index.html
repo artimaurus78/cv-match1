@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CV Match Pro</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; }
+    label, textarea { display: block; width: 100%; margin-bottom: 10px; }
+    textarea { height: 150px; padding: 8px; }
+    button { background: #0070f3; color: white; border: none; padding: 12px 24px; border-radius: 5px; cursor: pointer; }
+    #result { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>📄 CV Match Pro</h1>
+  <p>Incolla il tuo CV e l'offerta di lavoro, riceverai un report dettagliato in PDF.</p>
+
+  <form id="cvForm">
+    <label>Il tuo CV (testo):</label>
+    <textarea id="cv" placeholder="Incolla il tuo CV qui..."></textarea>
+
+    <label>Offerta di lavoro:</label>
+    <textarea id="offerta" placeholder="Incolla l'offerta di lavoro qui..."></textarea>
+
+    <button type="submit">Genera Report (17€)</button>
+  </form>
+
+  <div id="result"></div>
+
+  <script>
+    document.getElementById('cvForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const cv = document.getElementById('cv').value;
+      const offerta = document.getElementById('offerta').value;
+
+      if (!cv || !offerta) {
+        alert('Compila entrambi i campi.');
+        return;
+      }
+
+      const res = await fetch('/api/report', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ cv, offerta })
+      });
+
+      if (!res.ok) {
+        alert('Errore durante la generazione del report.');
+        return;
+      }
+
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'report.pdf';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  </script>
+</body>
+</html>
