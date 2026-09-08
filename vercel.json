@@ -1,0 +1,10 @@
+{
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/public/index.html" }
+  ],
+  "functions": {
+    "api/report.js": {
+      "runtime": "nodejs20.x"
+    }
+  }
+}
