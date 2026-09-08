@@ -1,1 +1,13 @@
-.
+{
+  "name": "cv-match1",
+  "version": "1.0.0",
+  "description": "AI CV matching tool",
+  "main": "api/report.js",
+  "scripts": {
+    "start": "node api/report.js"
+  },
+  "dependencies": {
+    "pdfkit": "^0.14.0",
+    "openai": "^4.28.0"
+  }
+}
